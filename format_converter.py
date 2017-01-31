@@ -61,7 +61,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Switch between either csv,tab or fasta formats')
 	parser.add_argument('filename', help='Name of input file')
 	parser.add_argument('input_type', help='Type of input file')
-	parser.add_argument('output_type'. help='Type of output file')
+	parser.add_argument('output_type', help='Type of output file')
 	parser.add_argument('output_name', help='Name of output file')
 
 	args = parser.parse_args()
@@ -81,11 +81,11 @@ if __name__ == '__main__':
 		raise ValueError('Input type must be csv, tab or fasta')
 
 	if output_type == 'fasta':
-		fasta_writer(output_name)
+		fasta_writer(output_name, seqs)
 	elif output_type == 'csv':
-		csv_writer(output_name)
+		csv_writer(output_name, seqs)
 	elif output_type == 'tab':
-		tab_writer(output_name)
+		tab_writer(output_name, seqs)
 	else:
 		raise ValueError('Output type must be csv, tab or fasta')
 

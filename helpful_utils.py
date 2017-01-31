@@ -2,11 +2,13 @@
 Collection of useful functions
 
 @author Kimberly Insigne
+kiminsigne@gmail.com
 
 """
 
 from itertools import islice
 import string
+
 
 def fasta_reader(filename):
 	"""
@@ -25,3 +27,28 @@ def fasta_reader(filename):
 			entry = list(islice(infile, 2))
 
 		return seqs
+
+
+def reverse_complement(seq):
+	"""
+	Return the reverse complement of a nucleotide string
+	"""
+	complement = {'A': 'T', 'T':'A', 'C':'G', 'G':'C', 'N':'N'}
+	
+	rc = ''.join([complement[nt] for nt in seq[::-1]])
+	return rc
+
+
+def mutate_1_bp(seq):
+
+	nts = set(['A', 'C', 'G', 'T'])
+	mutants = []
+
+	for i in range(len(seq)):
+		mod = list(seq)
+		diff = nts - set(mod[i])
+		for nt in diff:
+			mod[i] = nt
+			mutants.append(''.join(mod))
+
+	return mutants
