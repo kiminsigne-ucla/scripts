@@ -5,9 +5,9 @@ data=$1
 prefix=$2
 
 if [[ $3 = "-c" ]]; then
-	zcat $data/qseqs/$prefix*qseq.txt.gz | python /data/home/kinsigne/scripts/qseq2fastq.py > $data/$prefix.fastq
+	zcat $data/qseqs/$prefix*qseq.txt.gz | python /data/home/kinsigne/scripts/qseq2fastq_stdin.py > $data/$prefix.fastq
 else
-	cat $data/qseqs/$prefix*qseq.txt | python /data/home/kinsigne/scripts/qseq2fastq.py > $data/$prefix.fastq
+	cat $data/qseqs/$prefix*qseq.txt | python /data/home/kinsigne/scripts/qseq2fastq_stdin.py > $data/$prefix.fastq
 fi
 
 

@@ -58,7 +58,7 @@ if __name__ == '__main__':
 		indices[index] = name
 		# generate all 1bp mutants and add to look-up so we don't have to 
 		# check each index
-		for x in mutate_1_bp(seq):
+		for x in mutate_1_bp(index):
 			indices[x] = name
 
 	# because we added 1bp mutant indices there will be lots of repeated 

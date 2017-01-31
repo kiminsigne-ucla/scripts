@@ -1,0 +1,49 @@
+# @author: Kimberly Insigne
+# kiminsigne@gmail.com
+# This Makefile combines all the qseq data files together, converts them to 
+# FASTQ, and demultiplexes into separate samples. 
+# Notes: 
+# - It's easier to get Makefiles to work when it looks for dependencies in
+# the same/sub-folder. Create a symbolic link to the data folder called src for
+# this template to work correctly.
+# - demultiplex rule is not included in all and must be explicity called.
+# *** HARDCODED: PLEASE MAKE SURE QSEQ PREFIXES MATCH ***
+
+SCRIPTS=/data/home/kinsigne/scripts
+READ1=s_7_1
+READ2=s_7_3
+INDEX_READ=s_7_2
+
+all: qseq_list_read1.txt qseq_list_index.txt fastq
+
+# create file of filenames of qseq files to convert, one list for each read 
+# prefix. Wildcard grabs all files matching the prefix and qseq suffix
+# @ suppresses output
+read1_targets := $(wildcard src/$(READ1)*qseq*)
+qseq_list_read1.txt : $(read1_targets)
+	@ls $(read1_targets) > qseq_list_read1.txt
+
+read2_targets := $(wildcard src/$(READ2)*qseq*)
+qseq_list_read2.txt : $(read2_targets)
+	@ls $(read2_targets) > qseq_list_read2.txt
+
+index_targets := $(wildcard src/$(INDEX_READ)*qseq*)
+qseq_list_index.txt : $(index_targets)
+	@ls $(index_targets) > qseq_list_index.txt
+
+# define pattern rule to make fastq file given a qseq list
+# $< references source, $@ references target
+%.fastq : qseq_list_%.txt
+	python $(SCRIPTS)/qseq2fastq.py $< $@
+
+fastq : $(patsubst %, %.fastq, read1 read2 index)
+
+# demultiplex samples. We do not know ahead of time how many samples
+# files will be made or their names, so we cannot specify this in the
+# target. This rule will not create the target file, making this a phony
+# target. This will not be included in all so it will not be remade every
+# time. This rule must be specifically called. $< references all the source 
+# variables
+
+demultiplex : read1.fastq read2.fastq index.fastq index.txt
+	python $(SCRIPTS)/demultiplex_paired.py $< 7 -rev
