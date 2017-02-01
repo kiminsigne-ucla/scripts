@@ -37,5 +37,5 @@ if __name__ == '__main__':
 					# replace uncalled bases with N
 					seq = fields[8].replace('.', 'N')
 
-					outfile.write('\n'.join([header, seq, '+', fields[9], '\n']))
+					outfile.write('\n'.join([header, seq, '+', fields[9], '']))
 

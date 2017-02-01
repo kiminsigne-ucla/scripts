@@ -39,13 +39,13 @@ if __name__ == '__main__':
 	parser.add_argument('index_length', type=int, 
 		help="length of index, assuming it's the first n bases")
 	parser.add_argument('--output', nargs='?', const='./', default='./', 
-		help='Name out output directory, default is current directory')
+		help='Name of output directory, default is current directory')
 	parser.add_argument('-rev', action='store_true', 
 		help='If sequences in index_file are reverse complement\
 		relative to index reads file')
 	args = parser.parse_args()	
 
-	output = args.output	
+	output = args.output
 
 	# read in index file
 	index_file = open(args.index_file, 'rU')
